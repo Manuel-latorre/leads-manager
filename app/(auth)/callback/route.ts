@@ -15,7 +15,14 @@ export async function GET(request: Request) {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (user) {
+      if (user?.email) {
+        const allowedEmails = ["manuel.latorre11@gmail.com", "martina.cordoba2003@gmail.com"];
+        
+        if (!allowedEmails.includes(user.email)) {
+          await supabase.auth.signOut();
+          return NextResponse.redirect(new URL("/form?error=unauthorized", requestUrl.origin));
+        }
+
         const mappedUser = {
           id: user.id,
           email: user.email ?? null,
@@ -27,7 +34,6 @@ export async function GET(request: Request) {
             user.user_metadata?.avatar_url ?? user.user_metadata?.picture ?? null,
         };
 
-        // Best-effort upsert. If `profiles` does not exist yet, auth still succeeds.
         await supabase.from("profiles").upsert(mappedUser, { onConflict: "id" });
       }
     }
