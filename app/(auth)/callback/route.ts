@@ -15,10 +15,13 @@ export async function GET(request: Request) {
         data: { user },
       } = await supabase.auth.getUser();
 
+      console.log("User email:", user?.email);
+
       if (user?.email) {
         const allowedEmails = ["manuel.latorre11@gmail.com", "martina.cordoba2003@gmail.com"];
         
         if (!allowedEmails.includes(user.email)) {
+          console.log("Email no autorizado:", user.email);
           await supabase.auth.signOut();
           return NextResponse.redirect(new URL("/form?error=unauthorized", requestUrl.origin));
         }
@@ -35,8 +38,15 @@ export async function GET(request: Request) {
         };
 
         await supabase.from("profiles").upsert(mappedUser, { onConflict: "id" });
+      } else {
+        console.log("No user email found");
+        return NextResponse.redirect(new URL("/form?error=no_email", requestUrl.origin));
       }
+    } else {
+      console.log("Auth error:", error.message);
     }
+  } else {
+    console.log("No code provided");
   }
 
   return NextResponse.redirect(new URL(next, requestUrl.origin));
