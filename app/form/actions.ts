@@ -2,37 +2,9 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { z } from "zod"
+import { formSchema, FormValues } from "./types"
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
-
-const formSchema = z.object({
-  full_name: z.string().min(2),
-  age: z
-    .string()
-    .refine((v) => Number(v) >= 14 && Number(v) <= 80),
-  nationality: z.string().min(2),
-  occupation: z.string().min(2),
-  whatsapp: z.string().min(6),
-  instagram: z.string().min(1),
-  main_objective: z.enum([
-    "Aumentar masa muscular",
-    "Disminuir % graso",
-    "Ambas",
-  ] as const),
-  why_me: z.string().min(10),
-  importance: z.string().min(10),
-  gym_experience: z.enum([
-    "Ninguna",
-    "Menos de 1 año",
-    "1 a 2 años",
-    "+ de 2 años",
-  ] as const),
-  commitment_level: z
-    .string()
-    .refine((v) => Number(v) >= 1 && Number(v) <= 10),
-})
-
-type FormValues = z.infer<typeof formSchema>
 
 // ─── Action ───────────────────────────────────────────────────────────────────
 
