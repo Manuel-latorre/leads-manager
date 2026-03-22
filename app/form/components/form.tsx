@@ -91,11 +91,7 @@ function StyledInput({
     <div className="flex flex-col gap-1.5">
       <FieldLabel htmlFor={id}>
         {label}
-        {optional && (
-          <span className="ml-1 normal-case font-normal opacity-60">
-            (opcional)
-          </span>
-        )}
+        
       </FieldLabel>
       <input
         id={id}
@@ -254,7 +250,7 @@ function IntroCard() {
     <div className="flex flex-col gap-5">
       <div>
         <p className="text-3xl font-bold text-[#8c7e75]">
-          Martina Córdoba
+          Martina Cordoba
         </p>
         <h1 className="text-xl font-black text-[#241f1c] leading-[1.05] tracking-[-0.03em] m-0">
           Coaching 1:1
@@ -421,8 +417,7 @@ export function LeadFormWizard() {
                 ¡Gracias!
               </h2>
               <p className="text-base text-[#5e534c] leading-relaxed max-w-[280px] mx-auto m-0">
-                Recibimos tu información. En breve nos ponemos en contacto con
-                vos por WhatsApp.
+                En breve me estaré contactando contigo por WhatsApp.
               </p>
             </div>
           </div>
