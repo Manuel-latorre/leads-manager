@@ -7,8 +7,8 @@ export const formSchema = z.object({
     age: z
       .string()
       .min(1, "Ingresá tu edad")
-      .refine((v) => Number(v) >= 14 && Number(v) <= 80, {
-        message: "Edad debe estar entre 14 y 80",
+      .refine((v) => Number(v) >= 1 && Number(v) <= 80, {
+        message: "Edad debe estar entre 1 y 80",
       }),
     nationality: z.string().min(2, "Ingresá tu nacionalidad"),
     occupation: z.string().min(2, "Ingresá tu ocupación"),
@@ -18,8 +18,8 @@ export const formSchema = z.object({
       ["Aumentar masa muscular", "Disminuir % graso", "Ambas"] as const,
       { error: "Seleccioná un objetivo" }
     ),
-    why_me: z.string().min(10, "Contanos un poco más"),
-    importance: z.string().min(10, "Contanos un poco más"),
+    why_me: z.string().min(4, "Contame un poco más"),
+    importance: z.string().min(4, "Contame un poco más"),
     gym_experience: z.enum(
       ["Ninguna", "Menos de 1 año", "1 a 2 años", "+ de 2 años"] as const,
       { error: "Seleccioná tu experiencia" }
