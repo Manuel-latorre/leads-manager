@@ -1,7 +1,6 @@
 import { login } from "../actions";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { LoginForm } from "@/app/(auth)/login/login-form";
 
 export default function LoginPage() {
   return (
@@ -18,45 +17,7 @@ export default function LoginPage() {
           </CardHeader>
 
           <CardContent>
-            <form action={login} className="space-y-4">
-              <div className="space-y-2">
-                <label
-                  htmlFor="email"
-                  className="text-sm font-medium text-muted-foreground"
-                >
-                  Email
-                </label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="h-11"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="password"
-                  className="text-sm font-medium text-muted-foreground"
-                >
-                  Contraseña
-                </label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="h-11"
-                />
-              </div>
-
-              <Button type="submit" className="w-full h-11">
-                Log in
-              </Button>
-            </form>
+            <LoginForm action={login} />
           </CardContent>
         </Card>
       </div>
