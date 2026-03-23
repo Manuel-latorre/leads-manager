@@ -1,30 +1,30 @@
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+import { AppSidebar } from "@/components/app-sidebar";
+import { ChartAreaInteractive } from "@/components/chart-area-interactive";
+import { LeadsTable } from "@/components/data-table";
+import { SectionCards } from "@/components/section-cards";
+import { SiteHeader } from "@/components/site-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { getLeads } from "./actions";
 
-export default async function DashboardPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user?.email) {
-    redirect("/form");
-  }
-
-  const allowedEmails = ["manuel.latorre11@gmail.com", "martina.cordoba2003@gmail.com"];
-  
-  if (!allowedEmails.includes(user.email)) {
-    redirect("/form");
-  }
+export default async function Page() {
+  const leads = await getLeads();
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
-        <div className="bg-white rounded-lg shadow p-6">
-          <p className="text-gray-700">Bienvenido, {user.email}</p>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+        <div className="flex flex-1 flex-col">
+          <LeadsTable data={leads} />
         </div>
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

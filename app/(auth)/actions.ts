@@ -1,28 +1,26 @@
-"use server";
+'use server'
 
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
-export async function signInWithGoogle() {
-  const supabase = await createClient();
-  const headerList = await headers();
-  const origin = process.env.NEXT_PUBLIC_SITE_URL ?? headerList.get("origin");
+import { createClient } from '@/lib/supabase/server'
 
-  if (!origin) {
-    redirect("/?error=missing_site_url");
+export async function login(formData: FormData) {
+  const supabase = await createClient()
+
+  // type-casting here for convenience
+  // in practice, you should validate your inputs
+  const data = {
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
   }
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: `${origin}/callback`,
-    },
-  });
+  const { error } = await supabase.auth.signInWithPassword(data)
 
-  if (error || !data.url) {
-    redirect("/?error=oauth_start_failed");
+  if (error) {
+    redirect('/error')
   }
 
-  redirect(data.url);
+  revalidatePath('/', 'layout')
+  redirect('/dashboard')
 }

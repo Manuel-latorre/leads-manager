@@ -482,7 +482,7 @@ export function LeadFormWizard() {
                     label="Ocupación"
                     value={values.occupation}
                     onChange={(v) => set("occupation", v)}
-                    placeholder="Diseñadora, estudiante, emprendedora..."
+                    placeholder="Ingrese su ocupación"
                     autoComplete="organization-title"
                     autoCapitalize="words"
                     hasError={!!errors.occupation}
@@ -503,7 +503,7 @@ export function LeadFormWizard() {
                     label="Instagram"
                     value={values.instagram}
                     onChange={(v) => set("instagram", v)}
-                    placeholder="@tu_usuario"
+                    placeholder="Ingrese su instagram (sin @)"
                     autoComplete="off"
                     autoCapitalize="none"
                     optional
