@@ -83,6 +83,7 @@ import {
   ChevronRightIcon,
   ChevronsRightIcon,
   TargetIcon,
+  GoalIcon,
 } from "lucide-react"
 
 // ---- Schemas ----
@@ -145,7 +146,7 @@ function ObjectivesDialog({ full_name, objectives }: { full_name:string, objecti
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="gap-1.5">
-          <TargetIcon className="size-3.5" />
+          <GoalIcon className="size-3.5" />
           Ver objetivo
         </Button>
       </DialogTrigger>
@@ -279,7 +280,7 @@ const columns: ColumnDef<Lead>[] = [
         href={`https://wa.me/${row.original.whatsapp.replace(/\D/g, "")}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-primary hover:underline"
+        className="text-primary underline"
       >
         {row.original.whatsapp}
       </a>
@@ -294,7 +295,7 @@ const columns: ColumnDef<Lead>[] = [
           href={`https://instagram.com/${row.original.instagram.replace("@", "")}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary hover:underline"
+          className="text-primary underline"
         >
           @{row.original.instagram.replace("@", "")}
         </a>
