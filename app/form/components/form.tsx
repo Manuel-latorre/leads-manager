@@ -5,6 +5,7 @@ import { Check, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { EMPTY, FormErrors, formSchema, FormValues } from "../types";
 import { createLead } from "../actions";
+import { ModeToggle } from "@/components/mode-toggle";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -53,7 +54,7 @@ function FieldLabel({
   return (
     <label
       htmlFor={htmlFor}
-      className="text-sm font-bold tracking-[0.13em] uppercase text-[#8c7e75]"
+      className="text-sm font-bold tracking-[0.13em] uppercase text-muted-foreground"
     >
       {children}
     </label>
@@ -89,10 +90,7 @@ function StyledInput({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <FieldLabel htmlFor={id}>
-        {label}
-        
-      </FieldLabel>
+      <FieldLabel htmlFor={id}>{label}</FieldLabel>
       <input
         id={id}
         type={type}
@@ -105,11 +103,11 @@ function StyledInput({
         placeholder={placeholder}
         className={cn(
           "w-full h-[52px] px-4 rounded-xl text-base outline-none transition-colors duration-150",
-          "bg-[#ddd8d3] text-[#241f1c] placeholder:text-[#8c7e75]/60",
-          "border-2",
+          "bg-card text-foreground placeholder:text-muted-foreground/60",
+          "border-2 border-input focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30",
           hasError
-            ? "border-[#a05a5a]"
-            : "border-[#ccc6c0] focus:border-[#3d3530]",
+            ? "border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20"
+            : "",
         )}
       />
     </div>
@@ -142,11 +140,11 @@ function StyledTextarea({
         rows={5}
         className={cn(
           "w-full px-4 py-3.5 rounded-xl text-base outline-none resize-none transition-colors duration-150",
-          "bg-[#ddd8d3] text-[#241f1c] placeholder:text-[#8c7e75]/60 leading-relaxed",
-          "border-2",
+          "bg-card text-foreground placeholder:text-muted-foreground/60 leading-relaxed",
+          "border-2 border-input focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30",
           hasError
-            ? "border-[#a05a5a]"
-            : "border-[#ccc6c0] focus:border-[#3d3530]",
+            ? "border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20"
+            : "",
         )}
       />
     </div>
@@ -169,8 +167,8 @@ function OptionButton({
       className={cn(
         "w-full text-left px-5 py-4 rounded-xl text-base border-2 outline-none cursor-pointer transition-all duration-150",
         selected
-          ? "bg-[#241f1c] border-[#241f1c] text-[#ede9e6] font-semibold"
-          : "bg-[#ddd8d3] border-[#ccc6c0] text-[#3d3530] font-normal",
+          ? "bg-foreground border-foreground text-background font-semibold"
+          : "bg-card border-input text-foreground font-normal",
       )}
     >
       {label}
@@ -181,9 +179,9 @@ function OptionButton({
 function ProgressBar({ current, total }: { current: number; total: number }) {
   const pct = Math.round((current / total) * 100);
   return (
-    <div className="w-full h-[3px] rounded-full bg-[#ccc6c0] overflow-hidden">
+    <div className="w-full h-[3px] rounded-full bg-border overflow-hidden">
       <div
-        className="h-full bg-[#3d3530] rounded-full transition-[width] duration-500 ease-out"
+        className="h-full bg-primary rounded-full transition-[width] duration-500 ease-out"
         style={{ width: `${pct}%` }}
       />
     </div>
@@ -204,13 +202,13 @@ function StepShell({
   return (
     <div className="flex flex-col gap-7 w-full">
       <div className="flex flex-col gap-1.5">
-        <h2 className="text-2xl font-extrabold text-[#241f1c] leading-snug tracking-tight m-0">
+        <h2 className="text-2xl font-extrabold text-foreground leading-snug tracking-tight m-0">
           {question}
         </h2>
-        {hint && <p className="text-sm text-[#8c7e75] m-0">{hint}</p>}
+        {hint && <p className="text-sm text-muted-foreground m-0">{hint}</p>}
       </div>
       <div className="flex flex-col gap-3">{children}</div>
-      {error && <p className="text-sm text-[#a05a5a] -mt-1">{error}</p>}
+      {error && <p className="text-sm text-destructive -mt-1">{error}</p>}
     </div>
   );
 }
@@ -232,10 +230,10 @@ function PrimaryButton({
       className={cn(
         "w-full h-14 rounded-2xl font-bold text-base outline-none border-none cursor-pointer",
         "flex items-center justify-center gap-2 transition-opacity duration-150",
-        "text-[#ede9e6]",
+        "text-primary-foreground",
         disabled
-          ? "bg-[#8c7e75] opacity-70 cursor-not-allowed"
-          : "bg-[#241f1c] opacity-100",
+          ? "bg-muted text-muted-foreground opacity-70 cursor-not-allowed"
+          : "bg-primary opacity-100",
       )}
     >
       {children}
@@ -248,39 +246,42 @@ function PrimaryButton({
 function IntroCard() {
   return (
     <div className="flex flex-col gap-5">
-      <div>
-        <p className="text-3xl font-bold text-[#8c7e75]">
-          Martina Cordoba
-        </p>
-        <h1 className="text-xl font-black text-[#241f1c] leading-[1.05] tracking-[-0.03em] m-0">
-          Coaching 1:1
-        </h1>
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-3xl font-bold text-muted-foreground">
+            Martina Cordoba
+          </p>
+          <h1 className="uppercase text-xl font-black text-foreground leading-[1.05] tracking-[-0.03em] m-0">
+            Coaching 1:1
+          </h1>
+        </div>
+        <ModeToggle/>
       </div>
 
-      <div className="w-10 h-[2px] bg-[#ccc6c0] rounded-full" />
+      <div className="w-10 h-[2px] bg-border rounded-full" />
 
       <div className="flex flex-col gap-2">
-        <p className="text-[#5e534c] leading-relaxed text-sm">
+        <p className="text-foreground leading-relaxed text-sm">
           Si estás acá es porque buscás algo más que{" "}
           <em>&apos;moverte&apos;</em>, buscás que
         </p>
 
-        <p className="font-bold text-[#241f1c] leading-snug text-sm">
+        <p className="font-bold text-foreground leading-snug text-sm">
           el espejo refleje finalmente el esfuerzo que hacés cada día.
-        </p>        
+        </p>
 
-        <p className="text-[#5e534c] leading-relaxed text-sm">
-          Entiendo que tu vida no se detiene para que entrenes. <br /> Por eso mi
-          trabajo es que{" "}
-          <strong className="text-[#241f1c] font-bold">
+        <p className="text-foreground leading-relaxed text-sm">
+          Entiendo que tu vida no se detiene para que entrenes. <br /> Por eso
+          mi trabajo es que{" "}
+          <strong className="text-foreground font-bold">
             el plan se adapte a vos y no al revés.
           </strong>
         </p>
 
-        <p className=" text-[#5e534c] leading-relaxed text-sm">
+        <p className=" text-foreground leading-relaxed text-sm">
           Si estás dispuesta a comprometerte con tu cambio estético con las
           mismas ganas que yo lo haré con tu planificación,{" "}
-          <strong className="text-[#241f1c] font-bold">
+          <strong className="text-foreground font-bold">
             estamos listas para empezar.
           </strong>
         </p>
@@ -370,21 +371,21 @@ export function LeadFormWizard() {
     currentStep.id === CONTENT_STEPS[CONTENT_STEPS.length - 1].id;
 
   return (
-    <div className="h-dvh flex flex-col bg-[#ede9e6]">
+    <div className="h-dvh flex flex-col bg-background">
       {/* Top bar */}
       {!isIntro && !isSuccess && (
-        <div className="flex items-center gap-4 px-5 pt-5 pb-4 bg-[#ede9e6] sticky top-0 z-10">
+        <div className="flex items-center gap-4 px-5 pt-5 pb-4 bg-background sticky top-0 z-10">
           <button
             type="button"
             onClick={goBack}
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-[#ddd8d3] text-[#5e534c] border-none outline-none cursor-pointer flex-shrink-0"
+            className="flex items-center justify-center w-9 h-9 rounded-full bg-card text-foreground/80 border-none outline-none cursor-pointer shrink-0"
           >
             <ArrowLeft size={16} />
           </button>
           <div className="flex-1">
             <ProgressBar current={progressStep} total={TOTAL} />
           </div>
-          <span className="text-xs font-medium text-[#8c7e75] flex-shrink-0 tabular-nums">
+          <span className="text-xs font-medium text-muted-foreground shrink-0 tabular-nums">
             {progressStep}/{TOTAL}
           </span>
         </div>
@@ -399,9 +400,6 @@ export function LeadFormWizard() {
             </div>
             <div className="pt-10 pb-6 flex flex-col gap-3">
               <PrimaryButton onClick={goNext}>Empezar</PrimaryButton>
-              <p className="text-center text-xs text-[#8c7e75] opacity-70 m-0">
-                {TOTAL} preguntas · menos de 3 minutos
-              </p>
             </div>
           </div>
         )}
@@ -409,14 +407,14 @@ export function LeadFormWizard() {
         {/* ── Success ── */}
         {isSuccess && (
           <div className="flex flex-col items-center justify-center min-h-[calc(100dvh-4rem)] text-center gap-6">
-            <div className="w-20 h-20 rounded-full bg-[#ddd8d3] flex items-center justify-center">
-              <Check size={36} strokeWidth={2.5} className="text-[#241f1c]" />
+            <div className="w-20 h-20 rounded-full bg-card flex items-center justify-center">
+              <Check size={36} strokeWidth={2.5} className="text-foreground" />
             </div>
             <div className="flex flex-col gap-3">
-              <h2 className="text-[2rem] font-black text-[#241f1c] tracking-tight m-0">
+              <h2 className="text-[2rem] font-black text-foreground tracking-tight m-0">
                 ¡Gracias!
               </h2>
-              <p className="text-base text-[#5e534c] leading-relaxed max-w-[280px] mx-auto m-0">
+              <p className="text-base text-foreground/80 leading-relaxed max-w-[280px] mx-auto m-0">
                 En breve me estaré contactando contigo por WhatsApp.
               </p>
             </div>
@@ -437,7 +435,7 @@ export function LeadFormWizard() {
                     label="Nombre completo"
                     value={values.full_name}
                     onChange={(v) => set("full_name", v)}
-                    placeholder="María García"
+                    placeholder="Ingrese su nombre y apellido"
                     autoComplete="name"
                     autoCapitalize="words"
                     hasError={!!errors.full_name}
@@ -450,7 +448,7 @@ export function LeadFormWizard() {
                       onChange={(v) =>
                         set("age", v.replace(/\D/g, "").slice(0, 2))
                       }
-                      placeholder="28"
+                      placeholder="Ingrese su edad"
                       type="text"
                       inputMode="numeric"
                       pattern="[0-9]*"
@@ -462,7 +460,7 @@ export function LeadFormWizard() {
                       label="Nacionalidad"
                       value={values.nationality}
                       onChange={(v) => set("nationality", v)}
-                      placeholder="Argentina"
+                      placeholder="Ingrese su nacionalidad"
                       autoComplete="country-name"
                       autoCapitalize="words"
                       hasError={!!errors.nationality}
@@ -609,8 +607,8 @@ export function LeadFormWizard() {
                           className={cn(
                             "h-16 rounded-xl text-lg font-bold outline-none border-none cursor-pointer transition-all duration-150",
                             selected
-                              ? "bg-[#241f1c] text-[#ede9e6]"
-                              : "bg-[#ddd8d3] text-[#5e534c]",
+                              ? "bg-foreground text-background"
+                              : "bg-card text-foreground/80",
                           )}
                         >
                           {n}
@@ -625,7 +623,7 @@ export function LeadFormWizard() {
             {/* CTA */}
             <div className="pt-8 pb-6 flex flex-col gap-3">
               {serverError && (
-                <p className="text-sm text-[#a05a5a] text-center m-0">
+                <p className="text-sm text-destructive text-center m-0">
                   {serverError}
                 </p>
               )}
@@ -635,7 +633,7 @@ export function LeadFormWizard() {
               >
                 {isLoading ? (
                   <>
-                    <span className="w-4 h-4 rounded-full border-2 border-[#ede9e6]/30 border-t-[#ede9e6] animate-spin" />
+                    <span className="w-4 h-4 rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground animate-spin" />
                     Enviando...
                   </>
                 ) : isLastContentStep ? (
@@ -654,7 +652,7 @@ export function LeadFormWizard() {
 
       {!isSuccess && (
         <footer className="px-5 pb-6">
-          <p className="text-center text-[0.7rem] text-[#8c7e75] opacity-50 m-0">
+          <p className="text-center text-[0.7rem] text-muted-foreground opacity-50 m-0">
             Tu información es privada y no será compartida con terceros.
           </p>
         </footer>
