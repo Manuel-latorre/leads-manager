@@ -1,0 +1,9 @@
+export { IntroStep } from "./intro-step";
+export { SuccessStep } from "./success-step";
+export { PersonalStep } from "./personal-step";
+export { ContactWorkStep } from "./contact-work-step";
+export { ObjectiveStep } from "./objetive-step";
+export { WhyMeStep } from "./why-me-step";
+export { ImportanceStep } from "./importance-step";
+export { GymExperienceStep } from "./gym-experience-step";
+export { CommitmentLevelStep } from "./commitement-step";
