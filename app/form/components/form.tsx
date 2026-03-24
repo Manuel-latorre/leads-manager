@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Check, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { EMPTY, FormErrors, formSchema, FormValues } from "../types";
+import { EMPTY, FormErrors, formSchema, FormValues } from "@/schemas/form";
 import { createLead } from "../actions";
 import { ModeToggle } from "@/components/mode-toggle";
 
