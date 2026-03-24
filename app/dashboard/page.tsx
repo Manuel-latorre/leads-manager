@@ -1,12 +1,14 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { LeadsTable } from "@/components/data-table";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { LeadsClient } from "./components/leads-table";
 import { getLeads } from "./actions";
 
 export default async function Page() {
-  const leads = await getLeads();
 
+  // AQUÍ es donde ocurre la magia:
+  // Llamamos a la base de datos (Supabase) directamente en el servidor.
+  const initialData = await getLeads();
   return (
     <SidebarProvider
       style={
@@ -20,7 +22,8 @@ export default async function Page() {
       <SidebarInset>
         <SiteHeader />
         <div className="flex flex-1 flex-col">
-          <LeadsTable data={leads} />
+          {/* Ahora 'initialData' ya viene con los leads reales de la DB */}
+          <LeadsClient initialData={initialData} />
         </div>
       </SidebarInset>
     </SidebarProvider>
