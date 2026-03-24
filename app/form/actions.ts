@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server"
 import { formSchema, FormValues } from "@/schemas/form"
+import { revalidatePath } from "next/cache"
 
 export async function createLead(values: FormValues): Promise<{ error?: string }> {
   // Validate on server too — never trust the client
@@ -63,6 +64,7 @@ export async function createLead(values: FormValues): Promise<{ error?: string }
     await supabase.from("leads").delete().eq("id", lead.id)
     return { error: "No se pudo guardar tu información. Intentá de nuevo." }
   }
-
+    revalidatePath('/dashboard')
+  
   return {}
 }
