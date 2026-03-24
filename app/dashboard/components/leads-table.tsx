@@ -2,8 +2,8 @@
 
 import useSWR from "swr";
 import { LeadsTable } from "@/components/data-table";
-import { Lead } from "@/app/form/types";
 import { getLeads } from "../actions";
+import { Lead } from "@/types/leads";
 // Importamos la interface
 
 interface LeadsClientProps {
