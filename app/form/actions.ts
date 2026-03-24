@@ -1,11 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { formSchema, FormValues } from "./types"
-
-// ─── Schema ───────────────────────────────────────────────────────────────────
-
-// ─── Action ───────────────────────────────────────────────────────────────────
+import { formSchema, FormValues } from "@/schemas/form"
 
 export async function createLead(values: FormValues): Promise<{ error?: string }> {
   // Validate on server too — never trust the client
