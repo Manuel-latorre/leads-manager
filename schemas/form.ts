@@ -10,7 +10,10 @@ export const formSchema = z.object({
       }),
     nationality: z.string().min(2, "Ingresá tu nacionalidad"),
     occupation: z.string().min(2, "Ingresá tu ocupación"),
-    whatsapp: z.string().min(6, "Ingresá un número válido"),
+    whatsapp: z
+    .string()
+    .min(6, "Ingresá un número válido")
+    .regex(/^\+\d{1,4}[\s\-]?\d[\d\s\-]{4,}$/, "Ingresá un número válido con código de país"),
     instagram: z.string().min(1, "Ingresá tu Instagram"),
     main_objective: z.enum(
       ["Aumentar masa muscular", "Disminuir % graso", "Ambas"] as const,
