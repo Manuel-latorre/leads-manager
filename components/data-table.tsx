@@ -245,11 +245,23 @@ const columns: ColumnDef<Lead>[] = [
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label="Select row"
-        />
+          />
       </div>
     ),
     enableSorting: false,
     enableHiding: false,
+  },
+  {
+    accessorKey: "created_at",
+    header: "Fecha",
+    cell: ({ row }) =>
+      new Date(row.original.created_at).toLocaleString("es-AR", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
   },
   {
     accessorKey: "full_name",
@@ -310,16 +322,6 @@ const columns: ColumnDef<Lead>[] = [
       <ObjectivesDialog full_name={row.original.full_name} objectives={row.original.objectives} />
     ),
     enableSorting: false,
-  },
-  {
-    accessorKey: "created_at",
-    header: "Fecha",
-    cell: ({ row }) =>
-      new Date(row.original.created_at).toLocaleDateString("es-AR", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }),
   },
   {
     id: "actions",
